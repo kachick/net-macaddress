@@ -30,6 +30,14 @@ module Net
           int.to_s(2).rjust(8, '0').split(/./).map{|c|Integer s}
         end
 
+        private
+
+        def bit_for(obj)
+          raise ArgumentError unless DEF_BIT.has_key? obj
+
+          DEF_BIT[obj]
+        end
+
       end
       
       def initialize(bits)
@@ -71,10 +79,8 @@ module Net
       
       private
       
-      def bit_for(bit)
-        raise ArgumentError unless DEF_BIT.has_key? bit
-
-        DEF_BIT[bit]
+      def bit_for(obj)
+        self.class.__send__ __callee__, obj
       end
     
     end
