@@ -76,6 +76,16 @@ module Net
         
         @bits[8 - index]
       end
+
+      def eql?(other)
+        self.class == other.class && to_i == other.to_i
+      end
+
+      alias_method :==, :eql?
+
+      def hash
+        @bits.hash
+      end
       
       private
       
