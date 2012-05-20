@@ -1,65 +1,23 @@
-$VERBOSE = true
+# Copyright (c) 2012 Kenichi Kamiya
+
+require_relative 'macaddress/exceptions'
+require_relative 'macaddress/octet'
 
 module Net
-  
+
   # Immutable
   class MACAddrress
 
-    class MalformedDataError < StandardError; end
+    DELIMITER_PATTERN = /\A[:\-]\z/
 
-    # Immutable
-    class Octet
-
-      RADIXIES = [128, 64, 32, 16, 8, 3, 2, 1].freeze
-      DEF_BIT = {0 => 0, 1 => 1, true => 1, false => 0}.freeze
-      
-      def initialize(bits)
-        raise ArgumentError unless bits.length == 8
-        
-        @bits = bits.map{|bit|bit_for bit}.freeze
-      end
-      
-      def bits
-        @bits.dup
-      end
-      
-      def to_i
-        ret = 0
-        
-        RADIXIES.each_with_index do |radix, index|
-          ret += radix * @bits[index]
-        end
-        
-        ret
-      end
-      
-      # 1..8
-      # The reversing access from Ruby's Array
-      def [](pos)
-        index = pos.to_int
-        raise IndexError unless (1..8).cover? index
-        
-        @bits[8 - index]
-      end
-      
-      private
-      
-      def bit_for(bit)
-        raise ArgumentError unless DEF_BIT.has_key? bit
-
-        DEF_BIT[bit]
-      end
-    
-    end
-
-    PATTERN = /\A(?:[a-fA-F0-9][:\-]){5}(?:[a-fA-F0-9]\z/
+    PATTERN = /\A(?:#{Octet::PATTERN}[:\-]){5}#{Octet::PATTERN}\z/
 
     class << self
       
       def parse(str)
         case str
         when PATTERN
-          new str.split(/[:\-]/)
+          new str.split(DELIMITER_PATTERN).map{|oct|Octet.parse oct}
         else
           raise MalformedDataError
         end
@@ -103,7 +61,7 @@ module Net
     end
     
     def to_s(delimiter='-')
-      format @octets, delimiter
+      format_octets @octets, delimiter
     end
 
     def inspect
@@ -124,7 +82,7 @@ module Net
     
     # RFC3768
     def vrrp?
-      format(@octets.take(5), '-') == '00-00-5e-00-01'
+      format_octets(@octets.take(5), '-') == '00-00-5e-00-01'
     end
     
     private
@@ -134,7 +92,7 @@ module Net
       @octets[offset - 1]
     end
 
-    def format(octets, delimiter)
+    def format_octets(octets, delimiter)
       octets.map(&:to_s).join delimiter
     end
 
