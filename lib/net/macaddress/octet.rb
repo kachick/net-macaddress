@@ -23,19 +23,19 @@ module Net
           end
         end
 
-        def bits_for(int)
-          int = int.to_int
-          raise ArgumentError unless (0..255).cover? int
-
-          int.to_s(2).rjust(8, '0').split(/./).map{|c|Integer s}
-        end
-
-        private
-
         def bit_for(obj)
           raise ArgumentError unless DEF_BIT.has_key? obj
 
           DEF_BIT[obj]
+        end
+
+        private
+
+        def bits_for(int)
+          int = int.to_int
+          raise ArgumentError unless (0..255).cover? int
+
+          int.to_s(2).rjust(8, '0').split(/./).map{|c|Integer c}
         end
 
       end
