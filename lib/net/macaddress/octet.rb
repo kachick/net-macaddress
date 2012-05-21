@@ -3,24 +3,22 @@
 module Net
 
   # Immutable
-  class MACAddrress
+  class MACAddress
 
     # Immutable
     class Octet
 
-      RADIXIES = [128, 64, 32, 16, 8, 3, 2, 1].freeze
+      RADIXIES = [128, 64, 32, 16, 8, 4, 2, 1].freeze
       DEF_BIT = {0 => 0, 1 => 1, true => 1, false => 0}.freeze
-      PATTERN = /\A[a-fA-F0-9]{2}\z/
+      PATTERN_STR = '[a-fA-F0-9]{2}'.freeze
+      PATTERN = /\A#{PATTERN_STR}\z/
 
       class << self
         
         def parse(str)
-          case str
-          when PATTERN
-            new bits_for(str.to_i(16))
-          else
-            raise MalformedDataError
-          end
+          raise MalformedDataError unless PATTERN.match str
+
+          new bits_for(str.to_i(16))
         end
 
         def bit_for(obj)
@@ -34,8 +32,8 @@ module Net
         def bits_for(int)
           int = int.to_int
           raise ArgumentError unless (0..255).cover? int
-
-          int.to_s(2).rjust(8, '0').split(/./).map{|c|Integer c}
+          
+          int.to_s(2).rjust(8, '0').split('').map{|c|Integer c}
         end
 
       end
@@ -51,13 +49,10 @@ module Net
       end
       
       def to_i
-        ret = 0
-        
-        RADIXIES.each_with_index do |radix, index|
-          ret += radix * @bits[index]
-        end
-        
-        ret
+        RADIXIES.each_with_index.inject(0) {|sum, radix_index|
+          radix, index = *radix_index
+          sum + radix * @bits[index]
+        }
       end
 
       def to_s

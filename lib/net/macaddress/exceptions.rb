@@ -3,7 +3,7 @@
 module Net
 
   # Immutable
-  class MACAddrress
+  class MACAddress
 
     class MalformedDataError < StandardError; end
 

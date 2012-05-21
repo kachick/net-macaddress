@@ -6,21 +6,20 @@ require_relative 'macaddress/octet'
 module Net
 
   # Immutable
-  class MACAddrress
+  class MACAddress
 
-    DELIMITER_PATTERN = /\A[:\-]\z/
+    DELIMITER_PATTERN = /[:\-]/
 
-    PATTERN = /\A(?:#{Octet::PATTERN}[:\-]){5}#{Octet::PATTERN}\z/
+    PATTERN = /\A(?:#{Octet::PATTERN_STR}[:\-]){5}#{Octet::PATTERN_STR}\z/
+    
+    p PATTERN
 
     class << self
       
       def parse(str)
-        case str
-        when PATTERN
-          new str.split(DELIMITER_PATTERN).map{|oct|Octet.parse oct}
-        else
-          raise MalformedDataError
-        end
+        raise MalformedDataError unless PATTERN.match str
+        
+        new str.split(DELIMITER_PATTERN).map{|oct|Octet.parse oct}
       end
       
     end
@@ -39,25 +38,41 @@ module Net
     def oui
       @octets.take 3
     end
+    
+    alias_method :company_id, :oui
 
-    def nic
+    def extension_id
       @octets.drop 3
     end
+    
+    alias_method :ei, :extension_id
+    
+    def individual_group_bit
+      self[1][1]
+    end
+    
+    alias_method :ig_bit, :individual_group_bit
+    
+    def universal_local_bit
+      self[1][2]
+    end
+    
+    alias_method :ui_bit, :universal_local_bit
 
     def unicast?
-      self[1][1] == 0
+      individual_group_bit == 0
     end
 
     def multicast?
-      self[1][1] == 1
+      individual_group_bit == 1
     end
 
     def globaly?
-      self[1][2] == 0
+      universal_local_bit == 0
     end
 
     def localy?
-      self[1][2] == 1
+      universal_local_bit == 1
     end
     
     def to_s(delimiter='-')
@@ -65,7 +80,7 @@ module Net
     end
 
     def inspect
-      "#<MACAddress: #{to_s}>"
+      "#<#{self.class} #{to_s}>"
     end
 
     def ==(other)
