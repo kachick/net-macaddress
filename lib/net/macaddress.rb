@@ -11,15 +11,17 @@ module Net
     DELIMITER_PATTERN = /[:\-]/
 
     PATTERN = /\A(?:#{Octet::PATTERN_STR}[:\-]){5}#{Octet::PATTERN_STR}\z/
-    
-    p PATTERN
 
     class << self
       
       def parse(str)
-        raise MalformedDataError unless PATTERN.match str
+        raise MalformedDataError unless valid? str
         
         new str.split(DELIMITER_PATTERN).map{|oct|Octet.parse oct}
+      end
+      
+      def valid?(str)
+        !!PATTERN.match(str)
       end
       
     end
