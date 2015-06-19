@@ -1,5 +1,6 @@
 # Copyright (c) 2012 Kenichi Kamiya
 
+require_relative 'macaddress/version'
 require_relative 'macaddress/exceptions'
 require_relative 'macaddress/octet'
 

@@ -1,6 +1,6 @@
 $VERBOSE = true
 
-require_relative 'lib/net/macaddress'
+require_relative '../lib/net/macaddress'
 
 include Net
 
