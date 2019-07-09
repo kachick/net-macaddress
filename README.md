@@ -3,7 +3,6 @@ net-macaddress
 
 [![Build Status](https://secure.travis-ci.org/kachick/net-macaddress.png)](http://travis-ci.org/kachick/net-macaddress)
 [![Gem Version](https://badge.fury.io/rb/net-macaddress.png)](http://badge.fury.io/rb/net-macaddress)
-[![Dependency Status](https://gemnasium.com/kachick/net-macaddress.svg)](https://gemnasium.com/kachick/net-macaddress)
 
 Description
 ------------
