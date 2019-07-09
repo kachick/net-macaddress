@@ -29,7 +29,7 @@ include Net
 Requirements
 ------------
 
-* [Ruby 2.0 or later](http://travis-ci.org/#!/kachick/net-macaddress)
+* [Ruby 2.5 or later](http://travis-ci.org/#!/kachick/net-macaddress)
 
 Installation
 -------------
