@@ -24,3 +24,9 @@ doc/
 # editor
 *~
 .redcar
+
+# other
+*.lock
+*.bak
+tool/
+*\#*
