@@ -1,18 +1,19 @@
 net-macaddress
 ==============
 
-[![Build Status](https://secure.travis-ci.org/kachick/net-macaddress.png)](http://travis-ci.org/kachick/net-macaddress)
-[![Gem Version](https://badge.fury.io/rb/net-macaddress.png)](http://badge.fury.io/rb/net-macaddress)
+* ***This repository is archived***
+* ***No longer maintained***
+* ***All versions have been yanked from https://rubygems.org/ for releasing valuable namespace for others***
 
 Description
 ------------
 
-Utils for MACaddresses
+Utils for MAC address(media access control address)
 
 Features
 --------
 
-* Usuful methods
+* Useful methods
 * Immutable
 
 Usage
@@ -28,23 +29,7 @@ include Net
 Requirements
 ------------
 
-* [Ruby 2.5 or later](http://travis-ci.org/#!/kachick/net-macaddress)
-
-Installation
--------------
-
-```shell
-$ gem install net-macaddress
-```
-
-Link
-----
-
-* [code](https://github.com/kachick/net-macaddress)
-* [issues](https://github.com/kachick/net-macaddress/issues)
-* [CI](http://travis-ci.org/#!/kachick/net-macaddress)
-* [gem](https://rubygems.org/gems/net-macaddress)
-* [API-documents](http://www.rubydoc.info/github/kachick/net-macaddress)
+* Ruby 2.5 or later
 
 License
 -------
